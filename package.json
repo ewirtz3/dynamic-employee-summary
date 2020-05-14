@@ -1,0 +1,30 @@
+{
+  "name": "dynamic-employee-summary",
+  "version": "1.0.0",
+  "description": "Dynamic template engine for an employee summary",
+  "main": "app.js",
+  "scripts": {
+    "test:watch": "jest --watch --verbose test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewirtz3/dynamic-employee-summary.git"
+  },
+  "keywords": [
+    "template",
+    "engine",
+    "tests"
+  ],
+  "author": "Emily Wirtz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ewirtz3/dynamic-employee-summary/issues"
+  },
+  "homepage": "https://github.com/ewirtz3/dynamic-employee-summary#readme",
+  "devDependencies": {
+    "jest": "^26.0.1"
+  },
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  }
+}
