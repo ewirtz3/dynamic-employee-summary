@@ -4,7 +4,8 @@
   "description": "Dynamic template engine for an employee summary",
   "main": "app.js",
   "scripts": {
-    "test:watch": "jest --watch --verbose test/*"
+    "test": "jest --verbose test/*",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
