@@ -12,7 +12,7 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const manager = function () {
+const mgrAsk = function () {
   inquirer
     .prompt([
       {
@@ -36,15 +36,18 @@ const manager = function () {
         name: "officeNumber",
       },
     ])
-    .then(function (managerInput) {
-      const name = managerInput.name;
-      const id = managerInput.id;
-      const email = managerInput.email;
-      const officeNumber = managerInput.officeNumber;
+    .then(function (mgr) {
+      const manager = new Manager(
+        mgr.name,
+        mgr.id,
+        mgr.email,
+        mgr.officeNumber
+      );
+      addTeamMember();
     });
 };
 
-const engineer = function () {
+const engAsk = function () {
   inquirer
     .prompt([
       {
@@ -68,15 +71,13 @@ const engineer = function () {
         name: "github",
       },
     ])
-    .then(function (engineerInput) {
-      const name = engineerInput.name;
-      const id = engineerInput.id;
-      const email = engineerInput.email;
-      const github = engineerInput.github;
+    .then(function (eng) {
+      const engineer = new Engineer(eng.name, eng.id, eng.email, eng.github);
+      addTeamMember();
     });
 };
 
-const intern = function () {
+const intAsk = function () {
   inquirer
     .prompt([
       {
@@ -100,11 +101,9 @@ const intern = function () {
         name: "school",
       },
     ])
-    .then(function (internInput) {
-      const name = internInput.name;
-      const id = internInput.id;
-      const email = internInput.email;
-      const school = internInput.school;
+    .then(function (int) {
+      const intern = new Intern(int.name, int.id, int.email, int.school);
+      addTeamMember();
     });
 };
 
@@ -118,20 +117,20 @@ const addTeamMember = function () {
         choices: ["Engineer", "Intern", "I don't want to add anyone else"],
       },
     ])
-    .then(function () {
-      switch (teamMember) {
+    .then(function (teamMember) {
+      switch (teamMember.team) {
         case "Engineer":
-          engineer();
+          engAsk();
           break;
         case "Intern":
-          intern();
+          intAsk();
           break;
         default:
           return;
-          break;
       }
     });
 };
+mgrAsk();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
