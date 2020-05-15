@@ -44,6 +44,95 @@ const manager = function () {
     });
 };
 
+const engineer = function () {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is your engineer's name?",
+        name: "name",
+      },
+      {
+        type: "input",
+        message: "What is your engineer's ID?",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "What is your engineer's email?",
+        name: "email",
+      },
+      {
+        type: "input",
+        message: "What is your engineer's GitHub?",
+        name: "github",
+      },
+    ])
+    .then(function (engineerInput) {
+      const name = engineerInput.name;
+      const id = engineerInput.id;
+      const email = engineerInput.email;
+      const github = engineerInput.github;
+    });
+};
+
+const intern = function () {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is your intern's name?",
+        name: "name",
+      },
+      {
+        type: "input",
+        message: "What is your intern's ID?",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "What is your intern's email?",
+        name: "email",
+      },
+      {
+        type: "input",
+        message: "What is your intern's school?",
+        name: "school",
+      },
+    ])
+    .then(function (internInput) {
+      const name = internInput.name;
+      const id = internInput.id;
+      const email = internInput.email;
+      const school = internInput.school;
+    });
+};
+
+const addTeamMember = function () {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "Which type of team member do you want to add?",
+        name: "team",
+        choices: ["Engineer", "Intern", "I don't want to add anyone else"],
+      },
+    ])
+    .then(function () {
+      switch (teamMember) {
+        case "Engineer":
+          engineer();
+          break;
+        case "Intern":
+          intern();
+          break;
+        default:
+          return;
+          break;
+      }
+    });
+};
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
