@@ -5,13 +5,10 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
 
-// Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+//creating empty array for the team, defining function for manager prompts.
 const team = [];
 const mgrAsk = function () {
   inquirer
@@ -38,6 +35,7 @@ const mgrAsk = function () {
       },
     ])
     .then(function (mgr) {
+      //Creates a new instance of Manager, assigning it to manager. Passing in args from user input, calling getRole function, pushing manager to the team array, calling addTeamMember function.
       const manager = new Manager(
         mgr.name,
         mgr.id,
@@ -49,6 +47,53 @@ const mgrAsk = function () {
     });
 };
 
+mgrAsk();
+
+//defining function addTeamMember, which prompts the user and reacts according to user input to call the appropriate prompts function.
+const addTeamMember = function () {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "Which type of team member do you want to add?",
+        name: "team",
+        choices: ["Engineer", "Intern", "I don't want to add anyone else"],
+      },
+    ])
+    .then(function (teamMember) {
+      switch (teamMember.team) {
+        case "Engineer":
+          engAsk();
+          break;
+        case "Intern":
+          intAsk();
+          break;
+        case "I don't want to add anyone else":
+          render(team);
+          write();
+          return team;
+        default:
+          return team;
+      }
+    });
+};
+
+//defining write function
+const write = function () {
+  const inputDir = path.resolve(__dirname, "templates");
+  const inputPath = path.join(inputDir, "main.html");
+  const OUTPUT_DIR = path.resolve(__dirname, "output");
+  const outputPath = path.join(OUTPUT_DIR, "team.html");
+  fs.readFile(inputPath, "utf-8", function (err, data) {
+    if (err) throw err;
+    fs.writeFile(outputPath, data, function (err) {
+      if (err) throw err;
+      console.log("Team page generated!");
+    });
+  });
+};
+
+//defining function engAsk, which prompts the engineer questions. Pushes engineer to the team array and calls addTeamMember.
 const engAsk = function () {
   inquirer
     .prompt([
@@ -76,10 +121,12 @@ const engAsk = function () {
     .then(function (eng) {
       const engineer = new Engineer(eng.name, eng.id, eng.email, eng.github);
       team.push(engineer);
+      console.log(team);
       addTeamMember();
     });
 };
 
+//defining function to prompt intern questions. Adds intern to the team array and then calls addTeamMember.
 const intAsk = function () {
   inquirer
     .prompt([
@@ -107,38 +154,10 @@ const intAsk = function () {
     .then(function (int) {
       const intern = new Intern(int.name, int.id, int.email, int.school);
       team.push(intern);
+      console.log(team);
       addTeamMember();
     });
 };
-
-const addTeamMember = function () {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        message: "Which type of team member do you want to add?",
-        name: "team",
-        choices: ["Engineer", "Intern", "I don't want to add anyone else"],
-      },
-    ])
-    .then(function (teamMember) {
-      console.log(team);
-      switch (teamMember.choices) {
-        case "Engineer":
-          engAsk();
-          break;
-        case "Intern":
-          intAsk();
-          break;
-        case "I don't want to add anyone else":
-          render(team);
-          break;
-        default:
-          return;
-      }
-    });
-};
-mgrAsk();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -149,13 +168,3 @@ mgrAsk();
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
