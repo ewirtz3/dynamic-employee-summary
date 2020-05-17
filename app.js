@@ -12,6 +12,7 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const team = [];
 const mgrAsk = function () {
   inquirer
     .prompt([
@@ -43,6 +44,7 @@ const mgrAsk = function () {
         mgr.email,
         mgr.officeNumber
       );
+      team.push(manager);
       addTeamMember();
     });
 };
@@ -73,6 +75,7 @@ const engAsk = function () {
     ])
     .then(function (eng) {
       const engineer = new Engineer(eng.name, eng.id, eng.email, eng.github);
+      team.push(engineer);
       addTeamMember();
     });
 };
@@ -103,6 +106,7 @@ const intAsk = function () {
     ])
     .then(function (int) {
       const intern = new Intern(int.name, int.id, int.email, int.school);
+      team.push(intern);
       addTeamMember();
     });
 };
@@ -118,12 +122,16 @@ const addTeamMember = function () {
       },
     ])
     .then(function (teamMember) {
-      switch (teamMember.team) {
+      console.log(team);
+      switch (teamMember.choices) {
         case "Engineer":
           engAsk();
           break;
         case "Intern":
           intAsk();
+          break;
+        case "I don't want to add anyone else":
+          render(team);
           break;
         default:
           return;
