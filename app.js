@@ -7,9 +7,8 @@ const fs = require("fs");
 
 const render = require("./lib/htmlRenderer");
 
-// and to create objects for each team member (using the correct classes as blueprints!)
 //creating empty array for the team, defining function for manager prompts.
-const team = [];
+const employees = [];
 const mgrAsk = function () {
   inquirer
     .prompt([
@@ -35,14 +34,14 @@ const mgrAsk = function () {
       },
     ])
     .then(function (mgr) {
-      //Creates a new instance of Manager, assigning it to manager. Passing in args from user input, calling getRole function, pushing manager to the team array, calling addTeamMember function.
+      //Creates a new instance of Manager, assigning it to manager. Passing in args from user input, calling getRole function, pushing manager to the employees array, calling addTeamMember function.
       const manager = new Manager(
         mgr.name,
         mgr.id,
         mgr.email,
         mgr.officeNumber
       );
-      team.push(manager);
+      employees.push(manager);
       addTeamMember();
     });
 };
@@ -69,31 +68,26 @@ const addTeamMember = function () {
           intAsk();
           break;
         case "I don't want to add anyone else":
-          render(team);
-          write();
-          return team;
+          const html = render(employees);
+          write(html);
+          return html;
         default:
-          return team;
+          return employees;
       }
     });
 };
 
 //defining write function
-const write = function () {
-  const inputDir = path.resolve(__dirname, "templates");
-  const inputPath = path.join(inputDir, "main.html");
+const write = function (html) {
   const OUTPUT_DIR = path.resolve(__dirname, "output");
   const outputPath = path.join(OUTPUT_DIR, "team.html");
-  fs.readFile(inputPath, "utf-8", function (err, data) {
+  fs.writeFile(outputPath, html, function (err) {
     if (err) throw err;
-    fs.writeFile(outputPath, data, function (err) {
-      if (err) throw err;
-      console.log("Team page generated!");
-    });
+    console.log("Team page generated!");
   });
 };
 
-//defining function engAsk, which prompts the engineer questions. Pushes engineer to the team array and calls addTeamMember.
+//defining function engAsk, which prompts the engineer questions. Pushes engineer to the employees array and calls addTeamMember.
 const engAsk = function () {
   inquirer
     .prompt([
@@ -120,8 +114,8 @@ const engAsk = function () {
     ])
     .then(function (eng) {
       const engineer = new Engineer(eng.name, eng.id, eng.email, eng.github);
-      team.push(engineer);
-      console.log(team);
+      employees.push(engineer);
+      console.log(employees);
       addTeamMember();
     });
 };
@@ -153,8 +147,8 @@ const intAsk = function () {
     ])
     .then(function (int) {
       const intern = new Intern(int.name, int.id, int.email, int.school);
-      team.push(intern);
-      console.log(team);
+      employees.push(intern);
+      console.log(employees);
       addTeamMember();
     });
 };
