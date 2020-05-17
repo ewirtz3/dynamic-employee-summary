@@ -34,7 +34,7 @@ const mgrAsk = function () {
       },
     ])
     .then(function (mgr) {
-      //Creates a new instance of Manager, assigning it to manager. Passing in args from user input, calling getRole function, pushing manager to the employees array, calling addTeamMember function.
+      //Creates a new instance of Manager, assigning it to manager. Passing in args from user input, pushing manager to the employees array, calling addTeamMember function.
       const manager = new Manager(
         mgr.name,
         mgr.id,
@@ -115,7 +115,6 @@ const engAsk = function () {
     .then(function (eng) {
       const engineer = new Engineer(eng.name, eng.id, eng.email, eng.github);
       employees.push(engineer);
-      console.log(employees);
       addTeamMember();
     });
 };
@@ -148,17 +147,6 @@ const intAsk = function () {
     .then(function (int) {
       const intern = new Intern(int.name, int.id, int.email, int.school);
       employees.push(intern);
-      console.log(employees);
       addTeamMember();
     });
 };
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
