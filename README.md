@@ -4,13 +4,9 @@
 
 This command line application takes in a user's input about a team's manager and employees. When the user is finished inputting all team members, the application creates an HTML file that shows an organized team roster based on the information given.
 
-There are also tests for all js files in the lib folder; all tests pass.
-
 Link to YouTube demonstration of app.js functionality: https://youtu.be/altKcj90l44
 
-Link to repository: https://github.com/ewirtz3/dynamic-employee-summary
-
-<img src="https://img.shields.io/github/last-commit/ewirtz3/README-generator?style=for-the-badge"/>
+<img src="https://img.shields.io/github/last-commit/ewirtz3/dynamic-employee-summary?style=for-the-badge"/>
 
 ## Table of Contents
 
@@ -29,7 +25,11 @@ Open the app.js file in your Terminal or GitBash, and type node app.js to run th
 
 ## Credits
 
-Third-Party Assets Used: express, inquirer, jest
+Third-Party Assets Used: Express.js, Inquirer, Jest
+
+## Testing
+
+npm run test
 
 ## License
 
